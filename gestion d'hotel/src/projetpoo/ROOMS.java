@@ -71,13 +71,13 @@ public class ROOMS {
     {
        PreparedStatement st;
        
-       String addQuery="INSERT INTO rooms(roomnumber, type, phone, 'reserved') VALUES (?,?,?,?)" ;
+       String addQuery="INSERT INTO rooms('roomnumber', 'type', 'phone', 'reserved') VALUES (?,?,?,?)" ;
        try {
         st=myconnection.createConnection().prepareStatement(addQuery);
            st.setInt(1, roomnumber);
            st.setString(2, type);
            st.setString(3, phone);
-           st.setBoolean(4, false);
+           st.setString(4, "no");
            
 
           return st.executeUpdate()>0;
@@ -87,6 +87,43 @@ public class ROOMS {
         Logger.getLogger(MYCONNECTION.class.getName()).log(Level.SEVERE,null,e);
         return false;
             }
+
+    }
+    public boolean editclient(int roomnumber, String type  , String phone, String isReserved) {
+        PreparedStatement st;
+       
+        String editQuery="UPDATE 'rooms' SET 'type'=? ,'phone' = ?, 'isReserved' = ?  WHERE 'roomnumber' = ?" ;
+        try {
+         st=myconnection.createConnection().prepareStatement(editQuery);
+            st.setInt(1, roomnumber);
+            st.setString(2,  type);
+            st.setString(3, phone);
+            st.setString(4,isReserved);
+
+ 
+            return st.executeUpdate()>0 ;
+     } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         Logger.getLogger(MYCONNECTION.class.getName()).log(Level.SEVERE,null,e);
+         return false;
+     }
+    }
+
+ public boolean Removeroom (int roomnumber){
+        PreparedStatement st;
+       
+        String deleteQuery="DELETE FROM 'rooms' WHERE 'roomnumber'=?" ;
+        try {
+         st=myconnection.createConnection().prepareStatement(deleteQuery);
+           
+            st.setInt(1, roomnumber);
+ 
+            return st.executeUpdate()>0 ;
+     } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         Logger.getLogger(MYCONNECTION.class.getName()).log(Level.SEVERE,null,e);
+         return false;
+     } 
 
     }
 

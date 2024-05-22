@@ -5,9 +5,13 @@
 package projetpoo;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -85,6 +89,31 @@ public class Client {
      } 
 
     }
+   
     
-    
+    public void FilltableJTable (JTable table){
+        PreparedStatement ps;
+        ResultSet rs;
+        String selectQuery= "SELECT * FROM client ";
+        try {
+            ps=myconnection.createConnection().prepareStatement(selectQuery);
+            rs=ps.executeQuery();
+            DefaultTableModel tableModel =(DefaultTableModel)table.getModel();
+            Object[] row;
+            while(rs.next()){
+                row=new Object[5];
+                row[0]=rs.getInt(1);
+                row[1]=rs.getString(2);
+                row[2]=rs.getString(3);
+                row[3]=rs.getString(4);
+                row[4]=rs.getString(5);
+                tableModel.addRow(row);
+
+
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            Logger.getLogger(MYCONNECTION.class.getName()).log(Level.SEVERE,null,e);
+        }
+    }
 }
